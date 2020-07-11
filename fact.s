@@ -4,36 +4,54 @@ section .text
 
 do_fact:
 
+    push ebp
+    mov ebp, esp
+
     push ebx
+    push ecx
     push edi
-    push esi
     
-    mov ecx, [esp+16] ; int x
-    mov edi, [esp+20]
+    
+    mov eax, [ebp+8] 
+    mov edi, [ebp+12]
 
-    mov ebx, 1      ;число, на которое делим
-                    ; eax - число, т к в этот регистр кладется делимое,
-    mov ecx, eax    ; то сохраним значение eax в edi
-                
-    lp: mov eax, ecx
-        inc ebx
-        xor edx, edx
-        div ebx
-        cmp edx,0
-        jne lp
+    mov ebx, 1      
+    mov ecx, eax
 
-;mov eax, ebx
-;push eax
-mov esi, eax
-push esi
-push ebx
-call edi
-add esp, 8
-cmp eax, 0
-    je .ret
-        mov eax, 1
-    .ret:
-        pop edi
-        pop esi
-        pop ebx
-        ret
+    _fact:
+            mov eax, ecx
+            inc ebx   
+
+        .lp:
+    
+            mov ecx, eax
+            xor edx, edx
+            div ebx
+            cmp edx,0
+            jne _fact
+            cmp eax, 1
+            je .ret
+
+            mov ecx, eax
+            push eax
+            push ebx
+            call edi
+            add esp, 8
+            mov ebx, 2
+            mov eax, ecx
+
+            jmp .lp
+
+        
+        .ret:
+            pop edi
+            pop ecx
+            pop ebx
+
+            mov esp, ebp
+            pop ebp
+            ret
+
+
+
+       

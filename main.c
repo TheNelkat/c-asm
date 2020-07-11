@@ -1,20 +1,13 @@
 #include <stdio.h>
 
 
-typedef int (*callback)(int);
-extern int do_fact(int x, callback cb);
+typedef int (*callback)(int, int);
+extern int do_fact(int x, callback print_res);
 
-int result(int x)
-{
-    printf("Got results: %d!\n", x);
-    return;
-}
+int print_res(int x, int y);
 
-void fact(int x, callback cb)
-{
-    do_fact(x, cb);
-    return
-}
+void fact(int x, callback cb);
+
 
 int main() 
 {
@@ -32,6 +25,28 @@ int main()
             return 0;
         }
 
-    fact(x, result);
+    fact(x, print_res);
     return 0;
+}
+
+int print_res(int a, int y)
+{
+    if(y==a)
+    {
+        printf("Got results: %d!\n", a);
+        return;
+    }
+    printf("%d x ", a);
+    return 0;
+}
+
+void fact(int xx, callback cb)
+{
+    if((xx==0) || (xx==1) ||(xx== -1))
+    {
+        printf("%d", xx);
+        return;
+    }
+    do_fact(xx, cb);
+    return;
 }
