@@ -1,52 +1,50 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 
 typedef int (*callback)(int, int);
 extern int do_fact(int x, callback print_res);
 
-int print_res(int x, int y);
+int print_res(int fact, int num);
+void fact(int num, callback cb);
 
-void fact(int x, callback cb);
 
 
 int main() 
 {
-    int x; // delimoe
+    int num; 
     printf("Pls input int: \n");
-    scanf("%d", &x);
-    if(x<0)
-        {
-            printf("Данная операция недоступна для отрицательных чисел\n");
-            return 0;
-        }
-    if(x==0)
-        {
-            printf("Your ans is: 1");
-            return 0;
-        }
+    scanf("%d", &num);
 
-    fact(x, print_res);
+    fact(num, print_res);
     return 0;
 }
 
-int print_res(int a, int y)
+int print_res(int fact, int num)
 {
-    if(y==a)
+    if(num==1)
     {
-        printf("Got results: %d!\n", a);
-        return;
+        printf("%d!\n", fact);
+        return 0;
     }
-    printf("%d x ", a);
+    printf("%d x ", fact);
     return 0;
 }
 
-void fact(int xx, callback cb)
+void fact(int num, callback cb)
 {
-    if((xx==0) || (xx==1) ||(xx== -1))
+    if((num==0) || (num==1) || (num==-1))
     {
-        printf("%d", xx);
-        return;
+        printf("%d", num);
+        return ;
     }
-    do_fact(xx, cb);
-    return;
+
+    if(num<0)
+    {
+        printf("-1 x ");
+        num= abs(num);
+    }
+
+    do_fact(num, cb);
+    return ;
 }
